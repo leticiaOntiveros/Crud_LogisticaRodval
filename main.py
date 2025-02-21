@@ -16,7 +16,7 @@ app = FastAPI()
 class DynamicSchema(BaseModel):
     data: Dict  # Permite un diccionario dinámico de campos
 
-"""Metodo de recuperar datos"""
+
 @app.get("/{table_name}")
 def read_all(table_name: str, db: Session = Depends(get_db)):
     try:
@@ -25,7 +25,7 @@ def read_all(table_name: str, db: Session = Depends(get_db)):
     except KeyError as e:
         raise HTTPException(status_code=404, detail=str(e))
 
-"""Metodo de agregar"""
+
 @app.post("/{table_name}")
 def create(table_name: str, data: DynamicSchema, db: Session = Depends(get_db)):
     try:
@@ -37,7 +37,6 @@ def create(table_name: str, data: DynamicSchema, db: Session = Depends(get_db)):
         raise HTTPException(status_code=422, detail=str(e))
     
 
-"""Metodo de eliminar"""
 @app.delete("/{table_name}/{record_id}")
 def delete(table_name: str, record_id: int, db: Session = Depends(get_db)):
     try:
@@ -58,8 +57,7 @@ def delete(table_name: str, record_id: int, db: Session = Depends(get_db)):
     except Exception as e:
         # Maneja otros errores inesperados
         raise HTTPException(status_code=422, detail=str(e))
-    
-"""Metodo de modificar los campos"""
+
 @app.put("/{table_name}/{record_id}")  # Usa PUT para actualizaciones
 def update(
     table_name: str,
